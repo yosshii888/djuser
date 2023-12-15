@@ -127,3 +127,12 @@ AUTHENTICATION_BACKENDS = [
     'myapp.auth_backends.EmailBackend',
     'django.contrib.auth.backends.ModelBackend',
 ]
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend' #設定しなくてもデフォルトでこの値になるっぽい
+EMAIL_HOST = 'smtp.gmail.com'
+# EMAIL_HOST = 'smtp.googlemail.com' #これでもいける
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'yosshii888@gmail.com'
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER # send_mailのfromがNoneの場合自動で入る。
+EMAIL_HOST_PASSWORD = ''
