@@ -1,0 +1,9 @@
+<a href="{% url 'signup' %}">signup</a>
+<a href="{% url 'login' %}">login</a>
+<a href="{% url 'logout' %}">logout</a>
+
+{% if username %}
+    <p>Welcome, {{ username }}!</p>
+{% else %}
+    <p>Guest user</p>
+{% endif %} 

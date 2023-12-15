@@ -1,0 +1,16 @@
+django
+dj-database-url
+dj-static
+python-decouple
+django-environ
+gunicorn
+psycopg2-binary
+whitenoise
+django-widget-tweaks==1.4.8
+Pillow
+python-dotenv
+django-storages
+boto3
+python-decouple
+django-compressor
+social-auth-app-django
