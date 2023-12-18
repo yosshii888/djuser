@@ -1,0 +1,19 @@
+<!-- app/templates/app/html_post.html -->
+
+  <div class="bg-white py-6 sm:py-8 lg:py-12">
+    <div class="mx-auto max-w-screen-2xl px-4 md:px-8">
+      <h2 class="mb-4 text-center text-2xl font-bold text-gray-800 md:mb-6 lg:text-3xl">HTMLコード投稿</h2>
+      <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">投稿</button>
+      </form>
+      {% if html_code %}
+        <!-- 投稿されたHTMLコードを表示 -->
+        <div class="mt-4">
+          <h3 class="text-xl font-bold mb-2">投稿されたHTMLコード</h3>
+          <div>{{ html_code|safe }}</div>
+        </div>
+      {% endif %}
+    </div>
+  </div>

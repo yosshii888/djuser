@@ -79,43 +79,34 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views import generic
 from django.urls import reverse_lazy
 
-class PasswordChange(LoginRequiredMixin, PasswordChangeView):
-    """パスワード変更ビュー"""
-    success_url = reverse_lazy('password_change_done')
-    template_name = 'app/password_change.html'
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs) # 継承元のメソッドCALL
-        context["form_name"] = "password_change"
-        return context
+# views.py
 
+from django.shortcuts import render, redirect
+from django.views import View
+from .forms import HtmlPostForm
+from .models import HtmlPost
 
-class PasswordChangeDone(LoginRequiredMixin,PasswordChangeDoneView):
-    """パスワード変更しました"""
-    template_name = 'app/password_change_done.html'
+class HtmlPostView(View):
+    template_name = 'app/html_post.html'
 
-# --- ここから追加
-class PasswordReset(PasswordResetView):
-    """パスワード変更用URLの送付ページ"""
-#    subject_template_name = 'app/mail_template/reset/subject.txt'
-#    email_template_name = 'app/mail_template/reset/message.txt'
-    template_name = 'app/password_reset.html'
-    success_url = reverse_lazy('password_reset_done')
+    def get(self, request, *args, **kwargs):
+        form = HtmlPostForm()
+        return render(request, self.template_name, {'form': form})
 
+    def post(self, request, *args, **kwargs):
+        form = HtmlPostForm(request.POST)
 
-class PasswordResetDone(PasswordResetDoneView):
-    """パスワード変更用URLを送りましたページ"""
-    template_name = 'app/password_reset_done.html'
+        if form.is_valid():
+            html_post = form.save()  # データベースに保存
+            return redirect('html_post_detail', pk=html_post.id)
 
+        return render(request, self.template_name, {'form': form})
+    
+from django.views.generic.detail import DetailView
+from .models import HtmlPost
 
-class PasswordResetConfirm(PasswordResetConfirmView):
-    """新パスワード入力ページ"""
-    success_url = reverse_lazy('password_reset_complete')
-    template_name = 'app/password_reset_confirm.html'
-
-
-class PasswordResetComplete(PasswordResetCompleteView):
-    """新パスワード設定しましたページ"""
-    template_name = 'app/password_reset_complete.html'
-
-# --- ここまで
+class HtmlPostDetailView(DetailView):
+    model = HtmlPost
+    template_name = 'app/html_post_detail.html'
+    context_object_name = 'html_post'

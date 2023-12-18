@@ -1,6 +1,7 @@
 <a href="{% url 'signup' %}">signup</a>
 <a href="{% url 'login' %}">login</a>
 <a href="{% url 'logout' %}">logout</a>
+<a href="{% url 'html_post' %}">htmlpost</a>
 
 {% if username %}
     <p>Welcome, {{ username }}!</p>
@@ -8,4 +9,37 @@
     <p>Guest user</p>
 {% endif %} 
 
-<a href="{% url 'password_reset' %}">reset</a>
+{% if user.is_authenticated and user.is_staff %}
+
+<div class="bg-white py-6 sm:py-8 lg:py-12">
+  <!-- 省略... 他のコードはそのまま -->
+
+  <!-- HTMLコードの入力欄 -->
+  <div class="sm:col-span-2">
+    <label for="html_code" class="mb-2 inline-block text-sm text-gray-800 sm:text-base">HTMLコード*</label>
+    <textarea name="html_code" id="html_code" class="h-64 w-full rounded border bg-gray-50 px-3 py-2 text-gray-800 outline-none ring-indigo-300 transition duration-100 focus:ring"></textarea>
+  </div>
+
+  <!-- 「HTMLリンクを張る」ボタン -->
+  <div class="flex items-center justify-between sm:col-span-2">
+    <button type="button" onclick="applyHtmlCode()">HTMLリンクを張る</button>
+  </div>
+
+  <script>
+    function applyHtmlCode() {
+      var htmlCode = document.getElementById('html_code').value;
+      // TODO: 入力されたHTMLコードを適切な方法でテンプレートに反映させる
+      // 例えば、適切なエスケープ処理や表示方法を考慮する必要があります。
+    }
+  </script>
+
+  <!-- 省略... 他のコードはそのまま -->
+
+</div>
+
+{% else %}
+<div>
+  <a href="{% url 'login' %}" class="mt-2 text-base">ログインしてください</a>
+</div>
+
+{% endif %}
